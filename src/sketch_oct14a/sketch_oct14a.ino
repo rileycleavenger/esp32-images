@@ -126,6 +126,10 @@ void setup() {
   // Handle CORS preflight request
   server.on("/upload", HTTP_OPTIONS, handlePreflight);
 
+  server.onRequestBody([](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
+    Serial.println("Body received");
+  });
+
   // Start server
   server.begin();
 }

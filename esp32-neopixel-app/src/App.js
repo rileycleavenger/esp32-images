@@ -45,15 +45,17 @@ function App() {
   const uploadPixelData = async (pixelData) => {
     console.log('Uploading pixel data:', pixelData);
     try {
+      const formData = new URLSearchParams();
+      formData.append('pixelData', JSON.stringify(pixelData));
+
       const response = await fetch(ESP32_IP, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/octet-stream', // Sending raw bytes
+          'Content-Type': 'application/x-www-form-urlencoded', // Sending form data
         },
-        body: new Uint8Array(pixelData),
+        body: formData.toString(),
       });
-      console.log(response)
-  
+
       if (response.ok) {
         setMessage('Image successfully uploaded and displayed!');
       } else {
@@ -64,7 +66,6 @@ function App() {
       setMessage('Error: Could not connect to ESP32.');
     }
   };
-  
 
   return (
     <div style={{ textAlign: 'center', padding: '50px' }}>

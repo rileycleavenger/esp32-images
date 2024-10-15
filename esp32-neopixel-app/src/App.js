@@ -43,6 +43,7 @@ function App() {
   };
 
   const uploadPixelData = async (pixelData) => {
+    console.log('Uploading pixel data:', pixelData);
     try {
       const response = await fetch(ESP32_IP, {
         method: 'POST',
@@ -51,6 +52,7 @@ function App() {
         },
         body: new Uint8Array(pixelData),
       });
+      console.log(response)
   
       if (response.ok) {
         setMessage('Image successfully uploaded and displayed!');

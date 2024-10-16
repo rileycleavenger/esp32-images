@@ -95,27 +95,10 @@ void setup() {
     Serial.println("POST request received");
     Serial.print("content len: ");
     Serial.println(request->contentLength());
-    // Print all parameters
-    int params = request->params();
-    Serial.println("num of params: " + params);
-    for(int i=0;i<params;i++){
-        AsyncWebParameter* p = request->getParam(i);
-        Serial.print("Param name: ");
-        Serial.println(p->name());
-        Serial.print("Param value: ");
-        Serial.println(p->value());
-    }
 
-    // Read the request body
-    if (request->hasParam("body", true)) {
-      Serial.println("POST req has body");
-      AsyncWebParameter* p = request->getParam("body", true);
-      const uint8_t* data = (const uint8_t*)p->value().c_str();
-      size_t len = p->value().length();
-
-      // Call handleImageUpload with the accumulated data
-      handleImageUpload(request, "upload", 0, (uint8_t*)data, len, true);
-    }
+    const uint8_t* data = (const uint8_t*)request->getParam(0)->value().c_str();
+    size_t len = request->getParam(0)->value().length();
+    handleImageUpload(request, "upload", 0, (uint8_t*)data, len, true);
 
     // Send response
     AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", "Upload endpoint");

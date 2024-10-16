@@ -43,10 +43,14 @@ function App() {
   };
 
   const uploadPixelData = async (pixelData) => {
-    console.log('Uploading pixel data:', pixelData);
     try {
+      // Convert pixel data array to a comma-separated string
+      const pixelDataString = pixelData.join(',');
+
       const formData = new URLSearchParams();
-      formData.append('pixelData', JSON.stringify(pixelData));
+      formData.append('pixelData', pixelDataString);
+
+      console.log("sending" + formData.toString());
 
       const response = await fetch(ESP32_IP, {
         method: 'POST',
